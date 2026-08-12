@@ -1,0 +1,33 @@
+{
+  "id": "swade-brutal-damage",
+  "title": "SWADE Brutal Damage",
+  "description": "Adds recursive re-roll on 1s (rr1) to all damage dice (including Strength and Raise die) via the flag flags.swade-brutal-damage.brutal.",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.365"
+  },
+  "authors": [
+    {
+      "name": "Custom"
+    }
+  ],
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "swade",
+        "type": "system",
+        "compatibility": {
+          "minimum": "6.0.0",
+          "verified": "6.0.4"
+        }
+      }
+    ]
+  },
+  "url": "https://github.com/YOUR_USERNAME/swade-brutal-damage",
+  "manifest": "https://github.com/YOUR_USERNAME/swade-brutal-damage/releases/latest/download/module.json",
+  "download": "https://github.com/YOUR_USERNAME/swade-brutal-damage/releases/latest/download/module.zip"
+}
