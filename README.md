@@ -63,11 +63,7 @@ Brutal also remains active when the damage roll is **rerolled with a Benny or Fr
 
 Brutal is enabled through a Foundry **Active Effect**.
 
-Add an Active Effect to the Actor or Item that should have Brutal and configure the effect with:
-
-### Actor-wide Brutal
-
-Just make an active effect with the appropriate flag. If you use the first version, it will apply to ANY damage roll the actor makes. If you use the second, you can have it affect a specific weapon, just like how Trademark Weapon works.
+Just make an active effect with the flag listed below. If you use the first version, it will apply to ANY damage roll the actor makes. If you use the second, you can have it affect a specific weapon, just like how Trademark Weapon works.
 
 | Attribute Key                              | Change Mode | Value  |
 |--------------------------------------------|-------------|--------|
