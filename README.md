@@ -2,6 +2,8 @@
 
 A Foundry VTT module for **Savage Worlds Adventure Edition (SWADE)** that adds a **Brutal** property to damage rolls.
 
+***DISCLAIMER:*** *This module was made using AI. I am not a coder, but it seems to be working correctly. If anyone who actually knows what they are doing sees some obvious problem, please feel free to let me know what it is and how to fix it and I will do so!*
+
 ## What Does Brutal Do?
 
 Normally in SWADE, damage dice **Ace** when they roll their maximum value. The maximum result is kept and the die is rolled again. If the new result is also the maximum, it Aces again, continuing until a non-maximum result is rolled.
