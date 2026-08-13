@@ -1,15 +1,16 @@
 {
   "id": "swade-brutal-damage",
   "title": "SWADE Brutal Damage",
-  "description": "Adds recursive re-roll on 1s (rr1) to all damage dice (including Strength and Raise die) via the flag flags.swade-brutal-damage.brutal.",
-  "version": "1.0.2",
+  "description": "Adds the Brutal quality to damage rolls in Savage Worlds Adventure Edition. When active, all damage dice (including Strength and the Raise / bonus damage die) re-roll any result of 1 until a non-1 is rolled.",
+  "version": "1.1.0",
   "compatibility": {
-    "minimum": "14",
-    "verified": "14.365"
+    "minimum": "12",
+    "verified": "13"
   },
   "authors": [
     {
-      "name": "Custom"
+      "name": "Big Bad Buffalo",
+      "url": "https://github.com/bigbadbuffalo"
     }
   ],
   "esmodules": [
@@ -21,13 +22,14 @@
         "id": "swade",
         "type": "system",
         "compatibility": {
-          "minimum": "6.0.0",
-          "verified": "6.0.4"
+          "minimum": "4.0.0"
         }
       }
     ]
   },
   "url": "https://github.com/bigbadbuffalo/swade-brutal-damage",
-"manifest": "https://github.com/bigbadbuffalo/swade-brutal-damage/releases/latest/download/module.json",
-"download": "https://github.com/bigbadbuffalo/swade-brutal-damage/releases/latest/download/module.zip"
+  "manifest": "https://github.com/bigbadbuffalo/swade-brutal-damage/releases/latest/download/module.json",
+  "download": "https://github.com/bigbadbuffalo/swade-brutal-damage/releases/latest/download/module.zip",
+  "bugs": "https://github.com/bigbadbuffalo/swade-brutal-damage/issues",
+  "readme": "https://github.com/bigbadbuffalo/swade-brutal-damage/blob/main/README.md"
 }
