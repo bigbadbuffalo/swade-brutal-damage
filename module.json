@@ -1,8 +1,8 @@
 {
   "id": "swade-brutal-damage",
   "title": "SWADE Brutal Damage",
-  "description": "Adds the Brutal quality to damage rolls in Savage Worlds Adventure Edition. When active, all damage dice (including Strength and the Raise / bonus damage die) re-roll any result of 1 until a non-1 is rolled.",
-  "version": "1.1.7",
+  "description": "Adds the Brutal quality to damage rolls in Savage Worlds Adventure Edition. When active, all damage dice re-roll results of 1 until a non-1 is rolled while retaining normal SWADE Acing. Brutal applies to Strength, weapon damage, Raise damage, Conviction, and other bonus damage dice.",
+  "version": "1.0.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
@@ -22,7 +22,8 @@
         "id": "swade",
         "type": "system",
         "compatibility": {
-          "minimum": "6.0.0"
+          "minimum": "6.0.4",
+          "verified": "6.0.4"
         }
       }
     ]
