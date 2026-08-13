@@ -289,3 +289,44 @@ Hooks.on(
     }
   }
 );
+Hooks.on("swadeRollDamage", (...args) => {
+  console.group("SWADE Brutal Damage | swadeRollDamage DEBUG");
+
+  console.log("Arguments:", args);
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    console.log(`Argument ${i}:`, arg);
+
+    if (arg?.terms) {
+      console.log(
+        `Argument ${i} terms:`,
+        arg.terms.map(term => ({
+          class: term.constructor?.name,
+          formula: term.formula,
+          number: term.number,
+          faces: term.faces,
+          modifiers: term.modifiers,
+          results: term.results
+        }))
+      );
+    }
+
+    if (arg?.dice) {
+      console.log(
+        `Argument ${i} dice:`,
+        arg.dice.map(term => ({
+          class: term.constructor?.name,
+          formula: term.formula,
+          number: term.number,
+          faces: term.faces,
+          modifiers: term.modifiers,
+          results: term.results
+        }))
+      );
+    }
+  }
+
+  console.groupEnd();
+});
