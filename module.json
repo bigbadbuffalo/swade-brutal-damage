@@ -2,10 +2,10 @@
   "id": "swade-brutal-damage",
   "title": "SWADE Brutal Damage",
   "description": "Adds the Brutal quality to damage rolls in Savage Worlds Adventure Edition. When active, all damage dice (including Strength and the Raise / bonus damage die) re-roll any result of 1 until a non-1 is rolled.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "compatibility": {
-    "minimum": "12",
-    "verified": "13"
+    "minimum": "14",
+    "verified": "14"
   },
   "authors": [
     {
@@ -22,7 +22,7 @@
         "id": "swade",
         "type": "system",
         "compatibility": {
-          "minimum": "4.0.0"
+          "minimum": "6.0.0"
         }
       }
     ]
