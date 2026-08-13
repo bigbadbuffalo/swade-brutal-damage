@@ -67,18 +67,11 @@ Add an Active Effect to the Actor or Item that should have Brutal and configure 
 
 ### Actor-wide Brutal
 
-Create an Active Effect on the actor with this change:
+Just make an active effect with the appropriate flag. If you use the first version, it will apply to ANY damage roll the actor makes. If you use the second, you can have it affect a specific weapon, just like how Trademark Weapon works.
 
 | Attribute Key                              | Change Mode | Value  |
 |--------------------------------------------|-------------|--------|
 | `flags.swade-brutal-damage.brutal`         | Override    | `true` |
-
-### Weapon-specific Brutal
-
-Create an Active Effect (on the actor or on the weapon itself) with this change:
-
-| Attribute Key                                          | Change Mode | Value  |
-|--------------------------------------------------------|-------------|--------|
 | `@Weapon{Weapon Name}[flags.swade-brutal-damage.brutal]` | Override  | `true` |
 
 While that effect is active, applicable damage rolls will use the Brutal rules.
