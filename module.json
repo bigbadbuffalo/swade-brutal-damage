@@ -14,7 +14,8 @@
     }
   ],
   "esmodules": [
-    "scripts/main.js"
+  "scripts/brutal.js",
+  "scripts/light.js"
   ],
   "relationships": {
     "systems": [
