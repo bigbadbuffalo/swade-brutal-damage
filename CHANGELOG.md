@@ -4,7 +4,7 @@ All notable changes to **SWADE Brutal Damage** will be documented in this file.
 
 ## [Unreleased]
 
-## [1.0.0] - 2026-08-12
+## [v1.0.0] - 2026-08-12
 
 ### Added
 
