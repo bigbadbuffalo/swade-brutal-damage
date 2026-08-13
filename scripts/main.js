@@ -1,195 +1,145 @@
-Hooks.once("init", () => {
-  // Module initialized
-});
-
 Hooks.once("ready", () => {
   const DamageRoll = CONFIG.Dice?.DamageRoll;
+
   if (!DamageRoll) {
     console.warn("SWADE Brutal Damage | Could not find DamageRoll.");
     return;
   }
 
+  const Die = foundry.dice.terms.Die;
   const originalEvaluate = DamageRoll.prototype.evaluate;
 
-  DamageRoll.prototype.evaluate = async function (...args) {
+  /**
+   * Resolve one Brutal die from beginning to end.
+   *
+   * Brutal works like this:
+   *   1 = discard it and roll again
+   *   maximum = keep it and roll an additional die
+   *
+   * Every new result is checked again, so chains such as
+   * 1 -> 4 -> 1 -> 4 -> 3 work correctly.
+   */
+  async function resolveBrutalDie(term) {
+    let index = 0;
+    let safetyCounter = 0;
+    const MAX_RESULTS = 1000;
 
-    /*
-     * First, determine whether this is a Brutal damage roll.
-     *
-     * The swadeRollDamage hook adds "rr1" to the dice belonging
-     * to a Brutal weapon/actor. We use that modifier as the marker
-     * that tells us this roll needs the special Brutal/explosion
-     * interaction.
-     */
-    let hasBrutalDie = false;
+    while (index < term.results.length) {
+      safetyCounter++;
 
-    for (const term of this.terms) {
-      if (!(term instanceof foundry.dice.terms.Die)) continue;
-
-      if (
-        term.modifiers.includes("rr1") ||
-        term.modifiers.includes("r1")
-      ) {
-        hasBrutalDie = true;
+      if (safetyCounter > MAX_RESULTS) {
+        console.error(
+          "SWADE Brutal Damage | Safety limit reached while resolving a die.",
+          term
+        );
         break;
       }
+
+      const result = term.results[index];
+
+      // Results made inactive by another modifier do not need processing.
+      if (!result || result.active === false) {
+        index++;
+        continue;
+      }
+
+      // Brutal: a 1 contributes nothing and is rerolled.
+      if (result.result === 1) {
+        result.active = false;
+        result.rerolled = true;
+
+        await term.roll();
+
+        // The newly rolled result was appended to the end.
+        index = term.results.length - 1;
+        continue;
+      }
+
+      // SWADE: a maximum result contributes its value and explodes.
+      if (result.result === term.faces) {
+        result.exploded = true;
+
+        await term.roll();
+
+        // Process the newly rolled result immediately.
+        index = term.results.length - 1;
+        continue;
+      }
+
+      // This result is neither a 1 nor a maximum, so this chain ends.
+      index++;
+    }
+  }
+
+  DamageRoll.prototype.evaluate = async function (...args) {
+    /*
+     * A Brutal roll is identified by the rr1 marker added by the
+     * swadeRollDamage hook below.
+     */
+    const brutalDice = this.terms.filter(
+      term =>
+        term instanceof Die &&
+        term.modifiers.includes("rr1")
+    );
+
+    if (brutalDice.length === 0) {
+      return originalEvaluate.apply(this, args);
     }
 
     /*
-     * If this is a Brutal roll, make sure every damage die has
-     * the recursive reroll of 1.
+     * Replace Foundry's normal modifier evaluation for each Brutal die.
      *
-     * This includes:
-     * - Weapon damage
-     * - Strength damage
-     * - Raise / bonus damage
+     * We temporarily remove "rr1" and "x" so Foundry does not process
+     * them separately. We then perform both rules together in
+     * resolveBrutalDie().
      */
-    if (hasBrutalDie) {
-      for (const term of this.terms) {
-        if (!(term instanceof foundry.dice.terms.Die)) continue;
+    for (const term of brutalDice) {
+      const originalEvaluateModifiers = term._evaluateModifiers;
 
-        term.modifiers = term.modifiers.filter(
-          m => m !== "rr1" && m !== "r1"
+      term._evaluateModifiers = async function () {
+        const originalModifiers = this.modifiers;
+
+        // Let all non-Brutal modifiers work normally.
+        this.modifiers = originalModifiers.filter(
+          modifier => modifier !== "rr1" && modifier !== "r1" && modifier !== "x"
         );
 
-        term.modifiers.push("rr1");
-      }
+        await originalEvaluateModifiers.call(this);
 
-      this.resetFormula();
+        // Restore the original formula modifiers so the chat card still
+        // displays the normal SWADE formula (for example, 1d4xrr1).
+        this.modifiers = originalModifiers;
+
+        // Now resolve Brutal + SWADE exploding behavior as one process.
+        await resolveBrutalDie(this);
+      };
     }
 
-    /*
-     * Let SWADE / Foundry perform the normal damage roll first.
-     *
-     * This preserves all of the normal SWADE damage behavior,
-     * including exploding maximum damage dice.
-     */
-    const result = await originalEvaluate.apply(this, args);
-
-    /*
-     * Brutal's special interaction:
-     *
-     * Foundry processes "rr1" and "x" separately. This means:
-     *
-     *     1 -> 6
-     *
-     * will reroll the 1 into a 6, but that newly-created 6 will
-     * not normally be seen by the earlier "x" modifier.
-     *
-     * We repeatedly check the results after the normal roll and
-     * resolve any newly-created interactions.
-     */
-    if (hasBrutalDie) {
-
-      for (const term of this.terms) {
-        if (!(term instanceof foundry.dice.terms.Die)) continue;
-
-        /*
-         * Keep resolving the die until a complete pass produces
-         * no new rerolls or explosions.
-         */
-        let safetyCounter = 0;
-        const MAX_ITERATIONS = 1000;
-
-        while (safetyCounter < MAX_ITERATIONS) {
-          safetyCounter++;
-
-          let changed = false;
-
-          /*
-           * STEP 1:
-           *
-           * Find any active 1 that has not already been rerolled.
-           *
-           * This catches 1s produced by an explosion.
-           */
-          const hasNewOne = term.results.some(result => {
-            return (
-              result.active !== false &&
-              result.result === 1 &&
-              !result.rerolled
-            );
-          });
-
-          if (hasNewOne) {
-            await term.rerollRecursive("rr1");
-            changed = true;
-          }
-
-          /*
-           * STEP 2:
-           *
-           * Find any active maximum result that has not already
-           * exploded.
-           *
-           * This catches maximum results produced by Brutal
-           * rerolls.
-           *
-           * "true" tells Foundry that the explosion itself should
-           * continue recursively.
-           */
-          const hasNewMaximum = term.results.some(result => {
-            return (
-              result.active !== false &&
-              result.result === term.faces &&
-              !result.exploded
-            );
-          });
-
-          if (hasNewMaximum) {
-            await term.explode("x", true);
-            changed = true;
-          }
-
-          /*
-           * If neither operation changed anything, this die is
-           * completely resolved.
-           */
-          if (!changed) break;
-        }
-
-        /*
-         * If something has gone badly wrong and the safety limit
-         * was reached, report it instead of allowing the browser
-         * to get stuck in an infinite loop.
-         */
-        if (safetyCounter >= MAX_ITERATIONS) {
-          console.error(
-            "SWADE Brutal Damage | Safety limit reached while resolving a Brutal die.",
-            term
-          );
-        }
-      }
-    }
-
-    return result;
+    return originalEvaluate.apply(this, args);
   };
 });
 
 
 /*
- * Detect whether the actor or weapon has the Brutal flag and add
- * rr1 to the damage dice before the roll is evaluated.
+ * Detect the Brutal Active Effect on the actor or item and mark every
+ * damage die with rr1.
+ *
+ * rr1 is used here as a marker telling the evaluate patch that this
+ * is a Brutal damage roll. The actual reroll is handled by the custom
+ * resolver above.
  */
 Hooks.on("swadeRollDamage", (actor, item, roll, modifiers, options) => {
-
   const hasBrutal =
     actor?.getFlag("swade-brutal-damage", "brutal") ||
     item?.getFlag("swade-brutal-damage", "brutal");
 
   if (!hasBrutal || !roll?.terms) return;
 
-  /*
-   * Add Brutal to every damage die.
-   *
-   * This includes the weapon die, Strength die, and Raise /
-   * bonus damage die.
-   */
   for (const term of roll.terms) {
     if (!(term instanceof foundry.dice.terms.Die)) continue;
 
     term.modifiers = term.modifiers.filter(
-      m => m !== "rr1" && m !== "r1"
+      modifier => modifier !== "rr1" && modifier !== "r1"
     );
 
     term.modifiers.push("rr1");
