@@ -7,32 +7,44 @@ Hooks.once("init", () => {
 Hooks.once("ready", () => {
   console.log("%cSWADE Brutal Damage | ready – watching for damage rolls", "color: lime");
 
-  // Make sure DamageRoll exists before we touch it
   const DamageRoll = CONFIG.Dice?.DamageRoll;
   if (!DamageRoll) {
-    console.warn("SWADE Brutal Damage | DamageRoll class not found");
+    console.warn("SWADE Brutal Damage | DamageRoll class not found – cannot patch");
     return;
   }
 
-  // Remember the original evaluate function
   const originalEvaluate = DamageRoll.prototype.evaluate;
 
-  // Replace it with our version
   DamageRoll.prototype.evaluate = async function (...args) {
-    // If this roll was marked as "brutal", force rr1 onto EVERY die
-    if (this.options?.brutal) {
-      for (const term of this.terms) {
-        if (term instanceof foundry.dice.terms.Die) {
-          // Remove any existing r1 / rr1 so we don't stack them
-          term.modifiers = term.modifiers.filter(m => m !== "rr1" && m !== "r1");
-          term.modifiers.push("rr1");
+    // Look at the current dice. If ANY of them already have rr1,
+    // force rr1 onto EVERY die (this catches the Raise die).
+    let hasBrutalDie = false;
+
+    for (const term of this.terms) {
+      if (term instanceof foundry.dice.terms.Die) {
+        if (term.modifiers.includes("rr1") || term.modifiers.includes("r1")) {
+          hasBrutalDie = true;
+          break;
         }
       }
-      // Make the formula match the new modifiers
-      this.resetFormula();
     }
 
-    // Call the original evaluate function
+    if (hasBrutalDie) {
+      let changed = 0;
+      for (const term of this.terms) {
+        if (term instanceof foundry.dice.terms.Die) {
+          const before = term.modifiers.join(",");
+          term.modifiers = term.modifiers.filter(m => m !== "rr1" && m !== "r1");
+          term.modifiers.push("rr1");
+          if (term.modifiers.join(",") !== before) changed++;
+        }
+      }
+      if (changed > 0) {
+        this.resetFormula();
+        console.log(`%cSWADE Brutal Damage | forced rr1 onto ${changed} additional die/dice (Raise etc.)`, "color: lime; font-weight: bold");
+      }
+    }
+
     return originalEvaluate.apply(this, args);
   };
 });
@@ -44,11 +56,8 @@ Hooks.on("swadeRollDamage", (actor, item, roll, modifiers, options) => {
 
   if (!hasBrutal || !roll?.terms) return;
 
-  // Mark this roll so the evaluate patch knows it should apply Brutal
-  roll.options = roll.options || {};
-  roll.options.brutal = true;
-
-  // Also apply rr1 to the base dice right now (so the dialog preview looks correct)
+  // Put rr1 on the base dice so the dialog preview is correct
+  // and so the evaluate patch later knows this is a Brutal roll
   let count = 0;
   for (const term of roll.terms) {
     if (term instanceof foundry.dice.terms.Die) {
@@ -59,9 +68,6 @@ Hooks.on("swadeRollDamage", (actor, item, roll, modifiers, options) => {
   }
 
   if (count > 0) {
-    console.log(
-      `%cSWADE Brutal Damage | marked roll as brutal + applied rr1 to ${count} base die/dice`,
-      "color: lime; font-weight: bold"
-    );
+    console.log(`%cSWADE Brutal Damage | applied rr1 to ${count} base die/dice`, "color: lime; font-weight: bold");
   }
 });
