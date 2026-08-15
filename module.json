@@ -13,10 +13,12 @@
       "url": "https://github.com/bigbadbuffalo"
     }
   ],
-  "esmodules": [
+"esmodules": [
+  "scripts/settings.js",
+  "scripts/strength-damage-limit.js",
   "scripts/brutal.js",
   "scripts/light.js"
-  ],
+],
   "relationships": {
     "systems": [
       {
