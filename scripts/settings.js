@@ -1,6 +1,14 @@
 const SWP_MODULE_ID =
   "swade-weapon-properties";
 
+function refreshWorldActors() {
+  for (const actor of game.actors ?? []) {
+    actor.reset();
+    actor.prepareData();
+    actor.render?.(false);
+  }
+}
+
 Hooks.once("init", () => {
   game.settings.register(
     SWP_MODULE_ID,
@@ -32,7 +40,11 @@ Hooks.once("init", () => {
       scope: "world",
       config: true,
       type: Boolean,
-      default: false
+      default: false,
+
+      onChange: () => {
+        refreshWorldActors();
+      }
     }
   );
 
