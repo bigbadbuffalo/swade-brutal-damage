@@ -4,6 +4,12 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.4] - 2026-08-16
+
+### Bugfix
+
+Fixed pace not auto-updating when enabling/disabling Armor rule.
+
 ## [1.0.3] - 2026-08-16
 
 ### Added
