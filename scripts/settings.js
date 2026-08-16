@@ -64,4 +64,19 @@ Hooks.once("init", () => {
       default: false
     }
   );
+
+  /*
+   * Internal world setting used to show important module documentation
+   * once per welcome-message revision without spamming chat on every load.
+   */
+  game.settings.register(
+    SWP_MODULE_ID,
+    "welcomeMessageVersion",
+    {
+      scope: "world",
+      config: false,
+      type: Number,
+      default: 0
+    }
+  );
 });
