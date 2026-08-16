@@ -13,12 +13,14 @@
       "url": "https://github.com/bigbadbuffalo"
     }
   ],
-"esmodules": [
-  "scripts/settings.js",
-  "scripts/strength-damage-limit.js",
-  "scripts/brutal.js",
-  "scripts/light.js"
-],
+  "esmodules": [
+    "scripts/settings.js",
+    "scripts/strength-damage-limit.js",
+    "scripts/ranged-min-strength.js",
+    "scripts/armor-min-strength.js",
+    "scripts/brutal.js",
+    "scripts/light.js"
+  ],
   "relationships": {
     "systems": [
       {
@@ -31,9 +33,9 @@
       }
     ]
   },
-"url": "https://github.com/bigbadbuffalo/swade-weapon-properties",
-"manifest": "https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/download/module.json",
-"download": "https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/download/module.zip",
-"bugs": "https://github.com/bigbadbuffalo/swade-weapon-properties/issues",
-"readme": "https://github.com/bigbadbuffalo/swade-weapon-properties/blob/main/README.md"
+  "url": "https://github.com/bigbadbuffalo/swade-weapon-properties",
+  "manifest": "https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/download/module.json",
+  "download": "https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/download/module.zip",
+  "bugs": "https://github.com/bigbadbuffalo/swade-weapon-properties/issues",
+  "readme": "https://github.com/bigbadbuffalo/swade-weapon-properties/blob/main/README.md"
 }
