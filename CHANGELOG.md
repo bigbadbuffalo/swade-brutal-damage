@@ -4,11 +4,24 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.5] - 2026-08-16
+
+### Added
+
+- Added a one-time welcome/documentation chat message for each world.
+- The message summarizes the module's primary Active Effect flags:
+  - `flags.swade-weapon-properties.brutal`
+  - `flags.swade-weapon-properties.light`
+  - `flags.swade-weapon-properties.minStrBonus`
+- Added a direct link from the welcome message to the project README for setup instructions and examples.
+- Added an internal versioned world setting so the welcome message is not posted on every world load and can be intentionally shown again after future major documentation updates.
+- Only a GM creates the world-level welcome message, preventing duplicate messages from connected player clients.
+
 ## [1.0.4] - 2026-08-16
 
 ### Bugfix
 
-Fixed pace not auto-updating when enabling/disabling Armor rule.
+- Fixed Pace not auto-updating when enabling or disabling the Armor Minimum Strength rule.
 
 ## [1.0.3] - 2026-08-16
 
@@ -67,7 +80,9 @@ Fixed pace not auto-updating when enabling/disabling Armor rule.
 - Foundry Virtual Tabletop v14.
 - Savage Worlds Adventure Edition v6.0.4.
 
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.3...HEAD
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...HEAD
+[1.0.5]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.4...1.0.5
+[1.0.4]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.0...1.0.1
