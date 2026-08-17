@@ -48,12 +48,12 @@ Off Hand does **not** grant or emulate Ambidextrous. It does not change SWADE's 
 ### Off Hand Active Effect
 
 ```text
-Attribute Key: flags.swade-weapon-properties.offHand
+Attribute Key: flags.swade-weapon-properties.offhand
 Change Mode:   Override
 Effect Value:  true
 ```
 
-The former `flags.swade-weapon-properties.light` flag remains supported for backward compatibility with existing worlds and Active Effects, but new effects should use `offHand`.
+The earlier `flags.swade-weapon-properties.offHand` spelling and former `flags.swade-weapon-properties.light` flag remain supported for backward compatibility with existing worlds and Active Effects, but new effects should use lowercase `offhand`.
 
 Brutal and Off Hand may be used together on the same weapon.
 
