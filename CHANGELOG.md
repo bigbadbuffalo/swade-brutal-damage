@@ -4,6 +4,21 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.6] - 2026-08-16
+
+### Changed
+
+- Renamed the custom **Light** weapon property to **Off Hand** to avoid ambiguity with weapon class, size, and weight terminology.
+- The canonical Active Effect flag is now `flags.swade-weapon-properties.offHand`.
+- Renamed the automation script from `light.js` to `off-hand.js`.
+- Updated the module description, README, and welcome message to use the new terminology.
+- Increased the welcome-message revision so existing worlds receive the updated flag documentation once.
+
+### Compatibility
+
+- The former `flags.swade-weapon-properties.light` flag remains supported for backward compatibility with existing items and Active Effects.
+- Existing Light effects do not need to be rebuilt immediately, but new effects should use `flags.swade-weapon-properties.offHand`.
+
 ## [1.0.5] - 2026-08-16
 
 ### Added
@@ -80,7 +95,8 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 - Foundry Virtual Tabletop v14.
 - Savage Worlds Adventure Edition v6.0.4.
 
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...HEAD
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.6...HEAD
+[1.0.6]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...1.0.6
 [1.0.5]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.4...1.0.5
 [1.0.4]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.2...1.0.3
