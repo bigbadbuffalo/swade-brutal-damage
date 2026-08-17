@@ -39,21 +39,23 @@ Brutal dice display the `rr1` modifier in the damage roll.
 
 ---
 
-## Light
+## Off Hand
 
-**Light** allows a weapon to ignore SWADE's normal **−2 Off-Hand Penalty** when used in the off hand.
+**Off Hand** allows a weapon to ignore SWADE's normal **−2 Off-Hand Penalty** when used in the off hand.
 
-Light does **not** grant or emulate Ambidextrous. It does not change SWADE's normal handling of Parry bonuses from multiple weapons.
+Off Hand does **not** grant or emulate Ambidextrous. It does not change SWADE's normal handling of Parry bonuses from multiple weapons.
 
-### Light Active Effect
+### Off Hand Active Effect
 
 ```text
-Attribute Key: flags.swade-weapon-properties.light
+Attribute Key: flags.swade-weapon-properties.offHand
 Change Mode:   Override
 Effect Value:  true
 ```
 
-Brutal and Light may be used together on the same weapon.
+The former `flags.swade-weapon-properties.light` flag remains supported for backward compatibility with existing worlds and Active Effects, but new effects should use `offHand`.
+
+Brutal and Off Hand may be used together on the same weapon.
 
 # Optional Minimum Strength Automation
 
