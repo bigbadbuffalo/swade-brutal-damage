@@ -4,6 +4,18 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+### Added
+
+- Added an optional **Enforce Melee & Thrown Weapon Minimum Strength Penalties** world setting.
+- When enabled, melee and thrown weapon attacks suffer −1 per die step the wielder is below the weapon's Minimum Strength.
+- Thrown melee weapons use this house-rule setting rather than the pure-ranged Minimum Strength setting, so enabling both options does not double-apply the attack penalty.
+- Effective Minimum Strength bonuses from `flags.swade-weapon-properties.minStrBonus` apply to the new melee/thrown attack penalty normally.
+
+### Notes
+
+- The melee/thrown attack penalty is an optional house rule and remains independent from SWADE's normal ranged-weapon Minimum Strength attack penalty.
+- Positive melee/thrown weapon abilities such as Reach or Parry bonuses are still not automatically suppressed when Minimum Strength is not met.
+
 ## [1.0.6] - 2026-08-16
 
 ### Changed
