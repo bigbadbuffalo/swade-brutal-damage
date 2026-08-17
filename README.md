@@ -59,7 +59,7 @@ Brutal and Off Hand may be used together on the same weapon.
 
 # Optional Minimum Strength Automation
 
-The module includes three independent world settings under **Configure Settings → SWADE Weapon Properties**. All are disabled by default.
+The module includes four independent world settings under **Configure Settings → SWADE Weapon Properties**. All are disabled by default.
 
 ## Enforce Strength-Limited Weapon Damage
 
@@ -92,6 +92,14 @@ When enabled, attacks with ranged weapons suffer **−1 per die step** the wield
 
 Melee and thrown weapons are excluded from this ranged attack penalty.
 
+## Enforce Melee & Thrown Weapon Minimum Strength Penalties
+
+When enabled, melee and thrown weapon attacks suffer **−1 per die step** the wielder is below the weapon's Minimum Strength.
+
+This is an **optional house rule**, not the normal SWADE ranged-weapon rule. It is controlled independently from **Enforce Ranged Weapon Minimum Strength Penalties**, so worlds may enable either rule or both.
+
+Thrown melee weapons use this setting rather than the pure-ranged setting, preventing the two Minimum Strength attack penalties from stacking on the same attack.
+
 # Effective Minimum Strength Bonuses
 
 Some abilities, such as **Brawny** or **Soldier**, may allow a character to count Strength as higher for Minimum Strength purposes without actually increasing the Strength die.
@@ -116,7 +124,7 @@ Soldier: +1 step
 Effective Minimum Strength: d10
 ```
 
-This bonus is used by the **Armor Minimum Strength Penalties** and **Ranged Weapon Minimum Strength Penalties** automation.
+This bonus is used by the **Armor Minimum Strength Penalties**, **Ranged Weapon Minimum Strength Penalties**, and **Melee & Thrown Weapon Minimum Strength Penalties** automation.
 
 It does **not** increase actual Strength and therefore does not increase the Strength-limited weapon damage cap.
 
