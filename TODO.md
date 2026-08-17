@@ -16,7 +16,7 @@ That makes attacks such as **Armor-Piercing**, **Hollow-Point**, slugs, specialt
 
 ### Feasibility Verdict
 
-This is worth attempting, but it should be implemented as an extension in **SWADE Weapon Properties**, not by maintaining a modified fork of the SWADE system.
+This is worth attempting, but it should be implemented as an extension rather than by maintaining a modified fork of the SWADE system.
 
 SWADE already provides several pieces we can build around:
 
@@ -28,14 +28,22 @@ SWADE already provides several pieces we can build around:
 
 The largest difficulty is not choosing a different inventory item; it is keeping **loaded-ammunition state, weapon Shots, inventory quantities, reloads, and action selection synchronized without double-consuming ammunition**.
 
+### Tabletop Scope Assumption
+
+The project's intended tabletop rule is that a weapon is loaded with **only one ammunition type at a time**. Mixed cylinders, alternating shotgun loads, partially mixed magazines, and similar per-round ammunition sequencing are intentionally not supported.
+
+This is a deliberate bookkeeping simplification rather than a statement about what is physically possible. Changing ammunition type means changing or reloading the weapon's current load rather than tracking the composition and firing order of individual rounds.
+
+The automation should treat this as a feature rather than a temporary prototype limitation. It substantially reduces state-tracking complexity and makes the intended player workflow clear.
+
 ### Preferred Architecture
 
-Do **not** add unsupported fields directly to SWADE's `system.actions` data unless a later investigation confirms the system explicitly allows it. SWADE uses strict DataModels, so module-owned metadata should live in `flags.swade-weapon-properties` or on a linked Action Item / Activity where possible.
+Do **not** add unsupported fields directly to SWADE's `system.actions` data unless a later investigation confirms the system explicitly allows it. SWADE uses strict DataModels, so module-owned metadata should live in module flags or on a linked Action Item / Activity where possible.
 
 A first prototype should aim for the following:
 
 1. Give an attack action or linked Activity a module-owned **required / selected ammunition** reference, preferably by Item UUID or another stable identifier rather than display name alone.
-2. Track the ammunition type currently loaded in a weapon with a module flag.
+2. Track the single ammunition type currently loaded in a weapon with a module flag.
 3. Use `swadePreReloadWeapon` / `swadeReloadWeapon` to let a reload choose the appropriate ammunition item and record the loaded type while allowing SWADE to continue handling Shots and inventory changes wherever possible.
 4. When an attack action is used, verify that its required ammunition matches the weapon's loaded-ammunition state before the attack proceeds.
 5. Continue using SWADE's native action overrides for Damage, AP, Trait, and resource use rather than reimplementing those systems.
@@ -45,11 +53,24 @@ A first prototype should aim for the following:
 
 Keep the first version deliberately narrow:
 
-- Assume a weapon is loaded with **one ammunition type at a time**.
+- Enforce **one loaded ammunition type per weapon** as the normal project rule.
 - Support ordinary loose-ammunition and standard magazine / fixed-feed firearm workflows first.
-- Make mixed cylinders, alternating shotgun shells, partially mixed magazines, and similar per-round loadouts a later feature or an explicit unsupported case.
+- Do not support mixed cylinders, alternating shotgun shells, partially mixed magazines, or per-round firing-order bookkeeping.
 - Preserve normal SWADE behavior when no action-level ammunition override is configured.
 - Support worlds with SWADE ammunition management disabled without forcing inventory automation on them.
+
+### Module Boundary
+
+Prototype the feature independently enough that it can become a **separate companion module** if necessary.
+
+The existing **SWADE Weapon Properties** module mostly automates stable item properties and Minimum Strength behavior. Special-ammunition handling is likely to depend more heavily on SWADE's reload/action internals and may therefore have a higher risk of breaking when the SWADE system updates.
+
+During prototyping, evaluate two deployment options:
+
+1. **Keep it in SWADE Weapon Properties** if the implementation can rely primarily on supported hooks/API and remains reasonably isolated.
+2. **Split it into a dedicated ammunition module** if reliable operation requires fragile method wrapping, extensive action/reload interception, or frequent compatibility updates tied to SWADE releases.
+
+Prefer the separate-module option when doing so materially reduces maintenance risk or prevents ammunition compatibility work from destabilizing the otherwise simpler Weapon Properties module.
 
 ### Risks / Investigation Points
 
@@ -59,6 +80,7 @@ Keep the first version deliberately narrow:
 - Test every supported reload procedure that matters to this project: loose rounds, fixed feeds, magazines, and no-reload/self-reload cases where appropriate.
 - Prevent double accounting when SWADE has already consumed inventory ammunition during reload and the module is also tracking special ammunition.
 - Keep any method wrapping as narrow as possible because private/internal SWADE methods may change between system releases.
+- Evaluate whether the required compatibility surface is sufficiently isolated for the feature to remain in SWADE Weapon Properties or warrants its own module.
 
 ### Go / No-Go Criterion
 
@@ -68,6 +90,7 @@ Proceed beyond prototype only if we can demonstrate all of the following without
 - An action can require or select that ammunition type.
 - The correct ammunition inventory is consumed exactly once.
 - Weapon Shots remain correct.
+- The single-ammunition-type rule remains clear and predictable during reloads and action selection.
 - Standard SWADE attacks and reloads remain unchanged when the feature is not used.
 - The implementation survives a system reload and does not require destructive mutation of weapon data between attacks.
 
