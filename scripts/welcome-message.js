@@ -1,5 +1,5 @@
 const SWP_MODULE_ID = "swade-weapon-properties";
-const SWP_WELCOME_VERSION = 1;
+const SWP_WELCOME_VERSION = 2;
 const SWP_README_URL =
   "https://github.com/bigbadbuffalo/swade-weapon-properties#readme";
 
@@ -34,9 +34,15 @@ Hooks.once("ready", async () => {
       <p><strong>Active Effect flags:</strong></p>
       <ul>
         <li><code>flags.swade-weapon-properties.brutal</code> — Brutal damage</li>
-        <li><code>flags.swade-weapon-properties.light</code> — Light off-hand weapon</li>
+        <li><code>flags.swade-weapon-properties.offHand</code> — Off Hand weapon</li>
         <li><code>flags.swade-weapon-properties.minStrBonus</code> — Effective Minimum Strength bonus in die steps</li>
       </ul>
+
+      <p>
+        The former <code>flags.swade-weapon-properties.light</code>
+        flag remains supported for backward compatibility, but new
+        Off Hand effects should use <code>offHand</code>.
+      </p>
 
       <p>
         Minimum Strength automation options are available under
