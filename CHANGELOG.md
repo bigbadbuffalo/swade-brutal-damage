@@ -9,15 +9,15 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 ### Changed
 
 - Renamed the custom **Light** weapon property to **Off Hand** to avoid ambiguity with weapon class, size, and weight terminology.
-- The canonical Active Effect flag is now `flags.swade-weapon-properties.offHand`.
+- The canonical Active Effect flag is now `flags.swade-weapon-properties.offhand`.
 - Renamed the automation script from `light.js` to `off-hand.js`.
 - Updated the module description, README, and welcome message to use the new terminology.
 - Increased the welcome-message revision so existing worlds receive the updated flag documentation once.
 
 ### Compatibility
 
-- The former `flags.swade-weapon-properties.light` flag remains supported for backward compatibility with existing items and Active Effects.
-- Existing Light effects do not need to be rebuilt immediately, but new effects should use `flags.swade-weapon-properties.offHand`.
+- The earlier `flags.swade-weapon-properties.offHand` spelling and former `flags.swade-weapon-properties.light` flag remain supported for backward compatibility with existing items and Active Effects.
+- Existing legacy effects do not need to be rebuilt immediately, but new effects should use `flags.swade-weapon-properties.offhand`.
 
 ## [1.0.5] - 2026-08-16
 
@@ -45,7 +45,7 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 #### Minimum Strength Automation
 
 - Added an optional **Enforce Armor Minimum Strength Penalties** world setting.
-- When enabled, equipped armor applies cumulative Minimum Strength penalties of −1 Pace, −1 Agility, and −1 to Agility-linked skill rolls for each die step the wearer is below the item's Minimum Strength.
+- When enabled, equipped armor applies cumulative Minimum Strength penalties of −1 Pace, −1 Agility, and −1 to Agility-linked skill rolls for each die step the wearer is below an item's Minimum Strength.
 - Added an optional **Enforce Ranged Weapon Minimum Strength Penalties** world setting.
 - When enabled, ranged weapon attacks suffer −1 per die step the wielder is below the weapon's Minimum Strength.
 - Melee and thrown weapons are excluded from the ranged attack penalty.
