@@ -65,6 +65,23 @@ Hooks.once("init", () => {
     }
   );
 
+  game.settings.register(
+    SWP_MODULE_ID,
+    "enforceMeleeThrownMinStrPenalties",
+    {
+      name:
+        "Enforce Melee & Thrown Weapon Minimum Strength Penalties",
+
+      hint:
+        "Applies the optional house rule that melee and thrown weapon attacks suffer -1 for each die step the wielder is below the weapon's Minimum Strength. Pure ranged weapons are controlled by the separate ranged Minimum Strength setting.",
+
+      scope: "world",
+      config: true,
+      type: Boolean,
+      default: false
+    }
+  );
+
   /*
    * Internal world setting used to show important module documentation
    * once per welcome-message revision without spamming chat on every load.
