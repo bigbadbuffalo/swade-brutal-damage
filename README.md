@@ -128,6 +128,10 @@ The module does not fully automate every consequence of failing Minimum Strength
 
 In particular, it does **not** automatically suppress positive melee/thrown weapon abilities such as Reach or Parry bonuses when the wielder fails to meet the weapon's Minimum Strength. Those effects remain manual.
 
+# Development Roadmap
+
+Future work that has passed an initial feasibility review is tracked in [TODO.md](TODO.md). This includes a planned prototype for **per-action / special ammunition support** so weapon actions can eventually coordinate their Damage/AP overrides with the correct ammunition inventory and reload state.
+
 # Installation
 
 ## Manifest Installation
