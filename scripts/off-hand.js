@@ -54,11 +54,15 @@ Hooks.once("ready", () => {
         const item = this.parent;
 
         /*
-         * Off Hand is the canonical property flag. The former Light
-         * flag remains supported so existing worlds and Active Effects
-         * continue to function after the terminology change.
+         * offhand is the canonical property flag. The earlier offHand
+         * spelling and former Light flag remain supported so existing
+         * worlds and Active Effects continue to function.
          */
         const hasOffHandProperty = Boolean(
+          item?.getFlag(
+            SWP_MODULE_ID,
+            "offhand"
+          ) ||
           item?.getFlag(
             SWP_MODULE_ID,
             "offHand"
