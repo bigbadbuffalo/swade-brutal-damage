@@ -1,8 +1,8 @@
 {
   "id": "swade-weapon-properties",
   "title": "SWADE Weapon Properties",
-  "description": "Adds additional weapon properties and optional rules automation to Savage Worlds Adventure Edition, including Brutal damage, Off Hand weapons, Strength-limited weapon damage, armor Minimum Strength penalties, ranged weapon Minimum Strength penalties, melee/thrown Minimum Strength attack penalties, and partial melee/thrown Minimum Strength restriction automation.",
-  "version": "1.0.10",
+  "description": "Adds custom weapon properties to Savage Worlds Adventure Edition, including Brutal damage and Off Hand weapons.",
+  "version": "1.1.0",
   "compatibility": {
     "minimum": "14",
     "verified": "14"
@@ -15,11 +15,6 @@
   ],
   "esmodules": [
     "scripts/settings.js",
-    "scripts/strength-damage-limit.js",
-    "scripts/ranged-min-strength.js",
-    "scripts/melee-thrown-min-strength.js",
-    "scripts/melee-thrown-min-strength-restrictions.js",
-    "scripts/armor-min-strength.js",
     "scripts/brutal.js",
     "scripts/off-hand.js",
     "scripts/welcome-message.js"
