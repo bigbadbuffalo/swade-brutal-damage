@@ -4,6 +4,14 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.10] - 2026-08-17
+
+### Fixed
+
+- Fixed melee/thrown Minimum Strength restriction automation so positive Parry and AP are suppressed only while the affected weapon is readied/equipped.
+- Stored and merely Carried weapons now retain their normal displayed Parry and AP values even when the actor is below their Minimum Strength.
+- Off Hand, Equipped, Main Hand, and Two Hands weapon states remain eligible for restriction suppression.
+
 ## [1.0.9] - 2026-08-17
 
 ### Fixed
@@ -134,7 +142,8 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 - Foundry Virtual Tabletop v14.
 - Savage Worlds Adventure Edition v6.0.4.
 
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.9...HEAD
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.10...HEAD
+[1.0.10]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.9...1.0.10
 [1.0.9]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.8...1.0.9
 [1.0.8]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.6...1.0.7
