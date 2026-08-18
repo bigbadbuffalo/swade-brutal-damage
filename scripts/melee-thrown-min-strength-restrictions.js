@@ -6,11 +6,31 @@ import {
 const SWP_SETTING =
   "enforceMeleeThrownMinStrRestrictions";
 
+/*
+ * SWADE v6.0.4 weapon equip states:
+ * 0 = Stored
+ * 1 = Carried
+ * 2 = Off Hand
+ * 3 = Equipped
+ * 4 = Main Hand
+ * 5 = Two Hands
+ *
+ * Minimum Strength restrictions only matter for a weapon the character
+ * is actually wielding/using. Stored and merely Carried weapons should
+ * retain their displayed weapon statistics.
+ */
+const READIED_WEAPON_STATES =
+  new Set([2, 3, 4, 5]);
+
 function shouldRestrictWeapon(actor, item) {
+  const equipStatus =
+    Number(item?.system?.equipStatus ?? 0);
+
   return Boolean(
     actor &&
     item?.type === "weapon" &&
     item.system?.isMelee &&
+    READIED_WEAPON_STATES.has(equipStatus) &&
     getMinimumStrengthShortfall(actor, item) > 0
   );
 }
@@ -27,8 +47,9 @@ function shouldRestrictWeapon(actor, item) {
  *
  * These assignments affect only the prepared/derived item data for the
  * current preparation cycle. They do not update the embedded Item's
- * stored source data, so meeting Minimum Strength again restores the
- * weapon's normal values on the next preparation cycle.
+ * stored source data, so meeting Minimum Strength again or unreadying
+ * the weapon restores the weapon's normal values on the next
+ * preparation cycle.
  *
  * We deliberately automate only structured, unambiguously positive
  * weapon benefits that SWADE exposes directly:
