@@ -72,7 +72,7 @@ Hooks.on(
     }
 
     modifiers.push({
-      label: "Minimum Strength",
+      label: "Minimum Strength (Armor)",
       value: -penalty
     });
   }
@@ -110,7 +110,7 @@ Hooks.on(
     }
 
     modifiers.push({
-      label: "Minimum Strength",
+      label: "Minimum Strength (Armor)",
       value: -penalty
     });
   }
