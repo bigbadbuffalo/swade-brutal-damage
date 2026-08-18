@@ -1,6 +1,6 @@
 # SWADE Weapon Properties
 
-A Foundry VTT module for **Savage Worlds Adventure Edition (SWADE)** that adds custom weapon properties and optional rules automation for equipment and Minimum Strength.
+A Foundry VTT module for **Savage Worlds Adventure Edition (SWADE)** that adds reusable custom weapon properties.
 
 ## Compatibility
 
@@ -57,116 +57,23 @@ The earlier `flags.swade-weapon-properties.offHand` spelling and former `flags.s
 
 Brutal and Off Hand may be used together on the same weapon.
 
-# Optional Minimum Strength Automation
+# Minimum Strength Automation
 
-The module includes five independent world settings under **Configure Settings → SWADE Weapon Properties**. All are disabled by default.
-
-## Enforce Strength-Limited Weapon Damage
-
-Enforces the SWADE rule that the base damage die of a Strength-based melee or thrown weapon cannot exceed the wielder's **actual Strength die**.
-
-Examples:
+Minimum Strength rules automation has moved to the separate **SWADE Minimum Strength Automation** module:
 
 ```text
-Strength d4 + Str+d8 weapon → d4+d4
-Strength d6 + Str+d10+2 weapon → d6+d6+2
+https://github.com/bigbadbuffalo/swade-minimum-strength-automation
 ```
 
-This affects only the weapon's base damage die. Raise damage, Conviction, other bonus dice, and fixed-damage weapons are unaffected.
+This module no longer registers Minimum Strength world settings or the former `flags.swade-weapon-properties.minStrBonus` flag.
 
-## Enforce Armor Minimum Strength Penalties
+# Scope
 
-When enabled, equipped armor applies the normal Minimum Strength penalties for each die step the wearer is below the item's Minimum Strength:
-
-- −1 Pace
-- −1 Agility
-- −1 to Agility-linked skill rolls
-
-Penalties from multiple equipped armor items are cumulative. Pace cannot be reduced below 1.
-
-The module checks each skill's actual linked Attribute rather than using a hard-coded list, so custom skills and effects that change a skill's linked Attribute are respected.
-
-Roll modifiers created by this rule are labeled **Minimum Strength (Armor)** so they remain distinguishable from weapon Minimum Strength penalties.
-
-## Enforce Ranged Weapon Minimum Strength Penalties
-
-When enabled, attacks with ranged weapons suffer **−1 per die step** the wielder is below the weapon's Minimum Strength.
-
-Melee and thrown weapons are excluded from this ranged attack penalty. The roll modifier is labeled **Minimum Strength (Weapon)**.
-
-## Enforce Melee & Thrown Weapon Minimum Strength Penalties
-
-When enabled, melee and thrown weapon attacks suffer **−1 per die step** the wielder is below the weapon's Minimum Strength.
-
-This is an **optional house rule**, not the normal SWADE ranged-weapon rule. It is controlled independently from **Enforce Ranged Weapon Minimum Strength Penalties**, so worlds may enable either rule or both.
-
-Thrown melee weapons use this setting rather than the pure-ranged setting, preventing the two Minimum Strength attack penalties from stacking on the same attack. The roll modifier is labeled **Minimum Strength (Weapon)**.
-
-## Enforce Melee & Thrown Weapon Minimum Strength Restrictions
-
-When enabled, the module partially automates the SWADE rule that a wielder who does not meet a melee/thrown weapon's Minimum Strength does not receive that weapon's positive abilities.
-
-The module currently automates the positive weapon benefits that SWADE exposes as straightforward structured data:
-
-- Positive **Parry** granted by the affected weapon is suppressed while the weapon is readied and its Minimum Strength is not met.
-- The affected weapon's **AP** is treated as 0 on its damage rolls while Minimum Strength is not met.
-
-This setting is independent from the optional melee/thrown attack-penalty house rule. A world may use the RAW restriction automation without adopting the house-rule attack penalty.
-
-The restriction is calculated dynamically. The module does not rewrite the stored weapon's Parry or AP values, so meeting the Minimum Strength again restores the normal benefits automatically.
-
-# Effective Minimum Strength Bonuses
-
-Some abilities, such as **Brawny** or **Soldier**, may allow a character to count Strength as higher for Minimum Strength purposes without actually increasing the Strength die.
-
-SWADE Weapon Properties uses its own additive flag for this purpose:
-
-```text
-Attribute Key: flags.swade-weapon-properties.minStrBonus
-Change Mode:   Add
-Effect Value:  1
-```
-
-A value of `1` means one die step higher for Minimum Strength purposes. Multiple effects stack normally.
-
-For example:
-
-```text
-Strength d6
-Brawny:  +1 step
-Soldier: +1 step
-
-Effective Minimum Strength: d10
-```
-
-This bonus is used by the **Armor Minimum Strength Penalties**, **Ranged Weapon Minimum Strength Penalties**, **Melee & Thrown Weapon Minimum Strength Penalties**, and **Melee & Thrown Weapon Minimum Strength Restrictions** automation.
-
-It does **not** increase actual Strength and therefore does not increase the Strength-limited weapon damage cap.
-
-The module intentionally does not automatically interpret SWADE's `system.attributes.strength.encumbranceSteps` value as a Minimum Strength bonus. Add the `minStrBonus` flag to any Edge, ability, or Active Effect that should affect Minimum Strength.
-
-# Scope of Minimum Strength Automation
-
-The module does not fully automate every consequence of failing Minimum Strength.
-
-For melee/thrown weapons, the restrictions option currently suppresses structured positive **Parry** and **AP** benefits. It does **not** attempt to infer or disable positive abilities represented only in descriptive text or Notes, such as Reach, nor does it intercept module-owned properties such as Brutal or Off Hand. Those effects remain manual.
-
-Negative weapon abilities and penalties are intentionally left in place.
-
-# Development Roadmap
-
-Future work that has passed an initial feasibility review is tracked in [TODO.md](TODO.md). This includes a planned prototype for **per-action / special ammunition support** so weapon actions can eventually coordinate their Damage/AP overrides with the correct ammunition inventory and reload state.
+SWADE Weapon Properties is intentionally limited to reusable custom weapon properties and the code needed to implement them. Broader rules subsystems should live in dedicated modules when they have substantially different data, hook, or maintenance requirements.
 
 # Installation
 
 ## Manifest Installation
-
-In Foundry VTT:
-
-1. Open **Add-on Modules**.
-2. Select **Install Module**.
-3. Paste the manifest URL into the **Manifest URL** field.
-4. Select **Install**.
 
 ```text
 https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/download/module.json
@@ -174,39 +81,11 @@ https://github.com/bigbadbuffalo/swade-weapon-properties/releases/latest/downloa
 
 After installation, enable **SWADE Weapon Properties** from **Manage Modules** inside your SWADE world.
 
-## Manual Installation
-
-Download the module release and place the `swade-weapon-properties` folder inside:
-
-```text
-FoundryVTT/Data/modules/
-```
-
-Restart Foundry VTT and enable the module from **Manage Modules**.
-
 # Requirements
 
 This module requires the **Savage Worlds Adventure Edition (SWADE)** game system.
 
 No additional Foundry modules are required.
-
-# Reporting Bugs
-
-Report problems at:
-
-```text
-https://github.com/bigbadbuffalo/swade-weapon-properties/issues
-```
-
-Useful information includes:
-
-- Foundry VTT version
-- SWADE system version
-- Relevant weapon or armor configuration
-- Relevant Active Effects
-- Which Minimum Strength settings are enabled
-- Character Strength and effective Minimum Strength bonuses
-- A screenshot of the roll or behavior, if applicable
 
 # License
 
