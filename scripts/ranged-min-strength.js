@@ -63,7 +63,7 @@ Hooks.on(
     }
 
     additionalMods.push({
-      label: "Minimum Strength",
+      label: "Minimum Strength (Weapon)",
       value: -shortfall
     });
   }
