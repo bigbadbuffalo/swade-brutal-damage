@@ -1,16 +1,10 @@
 const SWP_MODULE_ID = "swade-weapon-properties";
-const SWP_WELCOME_VERSION = 2;
+const SWP_WELCOME_VERSION = 3;
 const SWP_README_URL =
   "https://github.com/bigbadbuffalo/swade-weapon-properties#readme";
 
 Hooks.once("ready", async () => {
-  /*
-   * Only a GM should create the world-level welcome message.
-   * This avoids every connected client posting the same message.
-   */
-  if (!game.user?.isGM) {
-    return;
-  }
+  if (!game.user?.isGM) return;
 
   const shownVersion = Number(
     game.settings.get(
@@ -19,35 +13,24 @@ Hooks.once("ready", async () => {
     ) ?? 0
   );
 
-  if (shownVersion >= SWP_WELCOME_VERSION) {
-    return;
-  }
+  if (shownVersion >= SWP_WELCOME_VERSION) return;
 
   const content = `
     <div class="swade-weapon-properties-welcome">
       <h2>SWADE Weapon Properties</h2>
       <p>
-        This module adds custom weapon properties and optional
-        Minimum Strength rules automation for SWADE.
+        This module adds reusable custom weapon properties for SWADE.
       </p>
 
       <p><strong>Active Effect flags:</strong></p>
       <ul>
         <li><code>flags.swade-weapon-properties.brutal</code> — Brutal damage</li>
         <li><code>flags.swade-weapon-properties.offhand</code> — Off Hand weapon</li>
-        <li><code>flags.swade-weapon-properties.minStrBonus</code> — Effective Minimum Strength bonus in die steps</li>
       </ul>
 
       <p>
-        The earlier <code>flags.swade-weapon-properties.offHand</code>
-        spelling and former <code>flags.swade-weapon-properties.light</code>
-        flag remain supported for backward compatibility, but new
-        Off Hand effects should use lowercase <code>offhand</code>.
-      </p>
-
-      <p>
-        Minimum Strength automation options are available under
-        <strong>Configure Settings → SWADE Weapon Properties</strong>.
+        Minimum Strength automation now lives in the separate
+        <strong>SWADE Minimum Strength Automation</strong> module.
       </p>
 
       <p>
@@ -60,9 +43,7 @@ Hooks.once("ready", async () => {
 
   try {
     await ChatMessage.create({
-      speaker: {
-        alias: "SWADE Weapon Properties"
-      },
+      speaker: { alias: "SWADE Weapon Properties" },
       content
     });
 
