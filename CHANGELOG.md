@@ -4,153 +4,30 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
-## [1.0.10] - 2026-08-17
-
-### Fixed
-
-- Fixed melee/thrown Minimum Strength restriction automation so positive Parry and AP are suppressed only while the affected weapon is readied/equipped.
-- Stored and merely Carried weapons now retain their normal displayed Parry and AP values even when the actor is below their Minimum Strength.
-- Off Hand, Equipped, Main Hand, and Two Hands weapon states remain eligible for restriction suppression.
-
-## [1.0.9] - 2026-08-17
-
-### Fixed
-
-- Fixed melee/thrown Minimum Strength restriction automation so positive weapon Parry and AP are suppressed before SWADE derives Parry and constructs later damage handling.
-- The previous v1.0.8 implementation attempted to patch already-derived Parry and already-resolved damage-roll AP, which was too late in SWADE's processing order.
-- Restriction suppression now changes only prepared/derived weapon data for the current actor preparation cycle and does not persistently rewrite the stored weapon item.
-
-## [1.0.8] - 2026-08-17
-
-### Added
-
-- Added an optional **Enforce Melee & Thrown Weapon Minimum Strength Restrictions** world setting.
-- When enabled, melee/thrown weapons whose Minimum Strength is not met lose their positive weapon Parry contribution and their weapon AP for the affected wielder/attack.
-- The restriction automation is intentionally partial: Reach, free-form Notes abilities, and module-owned properties such as Brutal and Off Hand remain manual rather than being inferred or intercepted automatically.
+## [1.1.0] - 2026-08-17
 
 ### Changed
 
-- Minimum Strength roll modifiers now identify their source as **Minimum Strength (Armor)** or **Minimum Strength (Weapon)** instead of using the same generic label for both.
+- Refocused **SWADE Weapon Properties** on reusable custom weapon properties.
+- Moved all Minimum Strength rules automation to the separate **SWADE Minimum Strength Automation** module.
+- Removed the Minimum Strength world settings, helper code, attack/damage/actor hooks, and `flags.swade-weapon-properties.minStrBonus` from this module.
+- Removed the special-ammunition roadmap from this repository; ammunition automation will be evaluated separately rather than assumed to belong to Weapon Properties.
+- Updated the welcome message and README to reflect the narrower module scope.
 
-### Notes
+### Retained
 
-- The new restrictions setting automates structured SWADE weapon benefits only and does not mutate the stored weapon item.
-- The melee/thrown attack penalty remains a separate optional house-rule setting.
+- **Brutal** damage automation.
+- **Off Hand** weapon automation and its compatibility aliases.
 
-## [1.0.7] - 2026-08-17
+### Migration
 
-### Added
+- Minimum Strength features now live at `bigbadbuffalo/swade-minimum-strength-automation`.
+- Effective Minimum Strength bonuses now use `flags.swade-minimum-strength-automation.minStrBonus`.
+- No compatibility shim is provided because the split occurred before public release.
 
-- Added an optional **Enforce Melee & Thrown Weapon Minimum Strength Penalties** world setting.
-- When enabled, melee and thrown weapon attacks suffer −1 per die step the wielder is below the weapon's Minimum Strength.
-- Thrown melee weapons use this house-rule setting rather than the pure-ranged Minimum Strength setting, so enabling both options does not double-apply the attack penalty.
-- Effective Minimum Strength bonuses from `flags.swade-weapon-properties.minStrBonus` apply to the new melee/thrown attack penalty normally.
+## Historical 1.0.x
 
-### Notes
+Versions 1.0.0 through 1.0.10 developed Brutal, Off Hand, and the Minimum Strength automation that was subsequently split into its own module. Detailed pre-split history remains available in Git history and the corresponding tags/commits.
 
-- The melee/thrown attack penalty is an optional house rule and remains independent from SWADE's normal ranged-weapon Minimum Strength attack penalty.
-- Positive melee/thrown weapon abilities such as Reach or Parry bonuses are still not automatically suppressed when Minimum Strength is not met.
-
-## [1.0.6] - 2026-08-16
-
-### Changed
-
-- Renamed the custom **Light** weapon property to **Off Hand** to avoid ambiguity with weapon class, size, and weight terminology.
-- The canonical Active Effect flag is now `flags.swade-weapon-properties.offhand`.
-- Renamed the automation script from `light.js` to `off-hand.js`.
-- Updated the module description, README, and welcome message to use the new terminology.
-- Increased the welcome-message revision so existing worlds receive the updated flag documentation once.
-
-### Compatibility
-
-- The earlier `flags.swade-weapon-properties.offHand` spelling and former `flags.swade-weapon-properties.light` flag remain supported for backward compatibility with existing items and Active Effects.
-- Existing legacy effects do not need to be rebuilt immediately, but new effects should use `flags.swade-weapon-properties.offhand`.
-
-## [1.0.5] - 2026-08-16
-
-### Added
-
-- Added a one-time welcome/documentation chat message for each world.
-- The message summarizes the module's primary Active Effect flags:
-  - `flags.swade-weapon-properties.brutal`
-  - `flags.swade-weapon-properties.light`
-  - `flags.swade-weapon-properties.minStrBonus`
-- Added a direct link from the welcome message to the project README for setup instructions and examples.
-- Added an internal versioned world setting so the welcome message is not posted on every world load and can be intentionally shown again after future major documentation updates.
-- Only a GM creates the world-level welcome message, preventing duplicate messages from connected player clients.
-
-## [1.0.4] - 2026-08-16
-
-### Bugfix
-
-- Fixed Pace not auto-updating when enabling or disabling the Armor Minimum Strength rule.
-
-## [1.0.3] - 2026-08-16
-
-### Added
-
-#### Minimum Strength Automation
-
-- Added an optional **Enforce Armor Minimum Strength Penalties** world setting.
-- When enabled, equipped armor applies cumulative Minimum Strength penalties of −1 Pace, −1 Agility, and −1 to Agility-linked skill rolls for each die step the wearer is below an item's Minimum Strength.
-- Added an optional **Enforce Ranged Weapon Minimum Strength Penalties** world setting.
-- When enabled, ranged weapon attacks suffer −1 per die step the wielder is below the weapon's Minimum Strength.
-- Melee and thrown weapons are excluded from the ranged attack penalty.
-- Added the additive Active Effect flag `flags.swade-weapon-properties.minStrBonus` for abilities that increase effective Strength for Minimum Strength purposes.
-- Effective Minimum Strength bonuses stack normally, allowing effects such as Brawny and Soldier to each contribute one die step without modifying the character's actual Strength.
-- The new Minimum Strength penalty automation remains independent from the existing Strength-limited damage automation.
-
-### Notes
-
-- Minimum Strength automation does not attempt to suppress positive weapon abilities such as Reach or Parry when a melee/thrown weapon's Minimum Strength is not met.
-- The module does not automatically interpret SWADE's `system.attributes.strength.encumbranceSteps` as a Minimum Strength bonus; the dedicated module flag must be used instead.
-
-## [1.0.2] - 2026-08-15
-
-### Added
-
-- Added optional enforcement of SWADE's Strength-limited melee/thrown weapon damage rule.
-- Added the **Enforce Strength-Limited Weapon Damage** world setting.
-- When enabled, a Strength-based weapon's base damage die cannot exceed the wielder's actual Strength die.
-- Raise damage, Conviction, other bonus damage dice, and fixed-damage weapons are unaffected.
-
-## [1.0.1] - 2026-08-13
-
-### Added
-
-- Expanded the module from Brutal-only damage automation into **SWADE Weapon Properties**.
-- Added the **Light** weapon property.
-- Light weapons ignore SWADE's −2 Off-Hand Penalty when used in the off hand.
-- Light does not grant or emulate Ambidextrous and does not alter normal Parry-bonus handling.
-- Brutal and Light may be used simultaneously on the same weapon.
-
-## [1.0.0] - 2026-08-13
-
-### Added
-
-- Initial public release.
-- Added the **Brutal** damage property.
-- Brutal damage dice reroll results of `1` until a result other than `1` is rolled.
-- Brutal rerolls interact correctly with normal SWADE Acing.
-- Brutal applies to all dice contributing to a damage roll, including Strength, weapon/base damage, Raise/Bonus Damage, Conviction, and other bonus damage dice.
-- Brutal remains active when damage is rerolled with a **Benny** or **Free Reroll**.
-- Brutal can be applied with `flags.swade-weapon-properties.brutal`.
-- Added safeguards against runaway recursive dice rolls.
-
-### Compatibility
-
-- Foundry Virtual Tabletop v14.
-- Savage Worlds Adventure Edition v6.0.4.
-
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.10...HEAD
-[1.0.10]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.9...1.0.10
-[1.0.9]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.8...1.0.9
-[1.0.8]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.7...1.0.8
-[1.0.7]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.6...1.0.7
-[1.0.6]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...1.0.6
-[1.0.5]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.4...1.0.5
-[1.0.4]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.3...1.0.4
-[1.0.3]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.2...1.0.3
-[1.0.2]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.1...1.0.2
-[1.0.1]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.0...1.0.1
-[1.0.0]: https://github.com/bigbadbuffalo/swade-weapon-properties/releases/tag/1.0.0
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.10...1.1.0
