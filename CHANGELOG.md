@@ -4,6 +4,14 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.9] - 2026-08-17
+
+### Fixed
+
+- Fixed melee/thrown Minimum Strength restriction automation so positive weapon Parry and AP are suppressed before SWADE derives Parry and constructs later damage handling.
+- The previous v1.0.8 implementation attempted to patch already-derived Parry and already-resolved damage-roll AP, which was too late in SWADE's processing order.
+- Restriction suppression now changes only prepared/derived weapon data for the current actor preparation cycle and does not persistently rewrite the stored weapon item.
+
 ## [1.0.8] - 2026-08-17
 
 ### Added
@@ -96,7 +104,7 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 - Added optional enforcement of SWADE's Strength-limited melee/thrown weapon damage rule.
 - Added the **Enforce Strength-Limited Weapon Damage** world setting.
 - When enabled, a Strength-based weapon's base damage die cannot exceed the wielder's actual Strength die.
-- Raise damage, Conviction, other bonus dice, and fixed-damage weapons are unaffected.
+- Raise damage, Conviction, other bonus damage dice, and fixed-damage weapons are unaffected.
 
 ## [1.0.1] - 2026-08-13
 
@@ -126,7 +134,8 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 - Foundry Virtual Tabletop v14.
 - Savage Worlds Adventure Edition v6.0.4.
 
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.8...HEAD
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.9...HEAD
+[1.0.9]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.8...1.0.9
 [1.0.8]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.6...1.0.7
 [1.0.6]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...1.0.6
