@@ -4,6 +4,23 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 
 ## [Unreleased]
 
+## [1.0.8] - 2026-08-17
+
+### Added
+
+- Added an optional **Enforce Melee & Thrown Weapon Minimum Strength Restrictions** world setting.
+- When enabled, melee/thrown weapons whose Minimum Strength is not met lose their positive weapon Parry contribution and their weapon AP for the affected wielder/attack.
+- The restriction automation is intentionally partial: Reach, free-form Notes abilities, and module-owned properties such as Brutal and Off Hand remain manual rather than being inferred or intercepted automatically.
+
+### Changed
+
+- Minimum Strength roll modifiers now identify their source as **Minimum Strength (Armor)** or **Minimum Strength (Weapon)** instead of using the same generic label for both.
+
+### Notes
+
+- The new restrictions setting automates structured SWADE weapon benefits only and does not mutate the stored weapon item.
+- The melee/thrown attack penalty remains a separate optional house-rule setting.
+
 ## [1.0.7] - 2026-08-17
 
 ### Added
@@ -109,7 +126,8 @@ All notable changes to **SWADE Weapon Properties** will be documented in this fi
 - Foundry Virtual Tabletop v14.
 - Savage Worlds Adventure Edition v6.0.4.
 
-[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.7...HEAD
+[Unreleased]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.8...HEAD
+[1.0.8]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.7...1.0.8
 [1.0.7]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.6...1.0.7
 [1.0.6]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.5...1.0.6
 [1.0.5]: https://github.com/bigbadbuffalo/swade-weapon-properties/compare/1.0.4...1.0.5
