@@ -59,7 +59,7 @@ Brutal and Off Hand may be used together on the same weapon.
 
 # Optional Minimum Strength Automation
 
-The module includes four independent world settings under **Configure Settings → SWADE Weapon Properties**. All are disabled by default.
+The module includes five independent world settings under **Configure Settings → SWADE Weapon Properties**. All are disabled by default.
 
 ## Enforce Strength-Limited Weapon Damage
 
@@ -86,11 +86,13 @@ Penalties from multiple equipped armor items are cumulative. Pace cannot be redu
 
 The module checks each skill's actual linked Attribute rather than using a hard-coded list, so custom skills and effects that change a skill's linked Attribute are respected.
 
+Roll modifiers created by this rule are labeled **Minimum Strength (Armor)** so they remain distinguishable from weapon Minimum Strength penalties.
+
 ## Enforce Ranged Weapon Minimum Strength Penalties
 
 When enabled, attacks with ranged weapons suffer **−1 per die step** the wielder is below the weapon's Minimum Strength.
 
-Melee and thrown weapons are excluded from this ranged attack penalty.
+Melee and thrown weapons are excluded from this ranged attack penalty. The roll modifier is labeled **Minimum Strength (Weapon)**.
 
 ## Enforce Melee & Thrown Weapon Minimum Strength Penalties
 
@@ -98,7 +100,20 @@ When enabled, melee and thrown weapon attacks suffer **−1 per die step** the w
 
 This is an **optional house rule**, not the normal SWADE ranged-weapon rule. It is controlled independently from **Enforce Ranged Weapon Minimum Strength Penalties**, so worlds may enable either rule or both.
 
-Thrown melee weapons use this setting rather than the pure-ranged setting, preventing the two Minimum Strength attack penalties from stacking on the same attack.
+Thrown melee weapons use this setting rather than the pure-ranged setting, preventing the two Minimum Strength attack penalties from stacking on the same attack. The roll modifier is labeled **Minimum Strength (Weapon)**.
+
+## Enforce Melee & Thrown Weapon Minimum Strength Restrictions
+
+When enabled, the module partially automates the SWADE rule that a wielder who does not meet a melee/thrown weapon's Minimum Strength does not receive that weapon's positive abilities.
+
+The module currently automates the positive weapon benefits that SWADE exposes as straightforward structured data:
+
+- Positive **Parry** granted by the affected weapon is suppressed while the weapon is readied and its Minimum Strength is not met.
+- The affected weapon's **AP** is treated as 0 on its damage rolls while Minimum Strength is not met.
+
+This setting is independent from the optional melee/thrown attack-penalty house rule. A world may use the RAW restriction automation without adopting the house-rule attack penalty.
+
+The restriction is calculated dynamically. The module does not rewrite the stored weapon's Parry or AP values, so meeting the Minimum Strength again restores the normal benefits automatically.
 
 # Effective Minimum Strength Bonuses
 
@@ -124,7 +139,7 @@ Soldier: +1 step
 Effective Minimum Strength: d10
 ```
 
-This bonus is used by the **Armor Minimum Strength Penalties**, **Ranged Weapon Minimum Strength Penalties**, and **Melee & Thrown Weapon Minimum Strength Penalties** automation.
+This bonus is used by the **Armor Minimum Strength Penalties**, **Ranged Weapon Minimum Strength Penalties**, **Melee & Thrown Weapon Minimum Strength Penalties**, and **Melee & Thrown Weapon Minimum Strength Restrictions** automation.
 
 It does **not** increase actual Strength and therefore does not increase the Strength-limited weapon damage cap.
 
@@ -134,7 +149,9 @@ The module intentionally does not automatically interpret SWADE's `system.attrib
 
 The module does not fully automate every consequence of failing Minimum Strength.
 
-In particular, it does **not** automatically suppress positive melee/thrown weapon abilities such as Reach or Parry bonuses when the wielder fails to meet the weapon's Minimum Strength. Those effects remain manual.
+For melee/thrown weapons, the restrictions option currently suppresses structured positive **Parry** and **AP** benefits. It does **not** attempt to infer or disable positive abilities represented only in descriptive text or Notes, such as Reach, nor does it intercept module-owned properties such as Brutal or Off Hand. Those effects remain manual.
+
+Negative weapon abilities and penalties are intentionally left in place.
 
 # Development Roadmap
 
