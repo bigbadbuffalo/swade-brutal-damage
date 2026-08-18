@@ -82,6 +82,27 @@ Hooks.once("init", () => {
     }
   );
 
+  game.settings.register(
+    SWP_MODULE_ID,
+    "enforceMeleeThrownMinStrRestrictions",
+    {
+      name:
+        "Enforce Melee & Thrown Weapon Minimum Strength Restrictions",
+
+      hint:
+        "Partially automates the SWADE rule that a wielder below a melee/thrown weapon's Minimum Strength loses its positive abilities. Currently suppresses positive weapon Parry bonuses and weapon AP. Reach, Notes-based abilities, and module-owned properties such as Brutal or Off Hand remain manual.",
+
+      scope: "world",
+      config: true,
+      type: Boolean,
+      default: false,
+
+      onChange: () => {
+        refreshWorldActors();
+      }
+    }
+  );
+
   /*
    * Internal world setting used to show important module documentation
    * once per welcome-message revision without spamming chat on every load.
